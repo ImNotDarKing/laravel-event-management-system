@@ -26,7 +26,7 @@
 
 1. **Клонировать репозиторий**
    ```bash
-   git clone <URL_репозитория> laravel-event-management
+   git clone https://github.com/ImNotDarKing/laravel-event-management-system
    cd laravel-event-management
    ```
 
@@ -81,7 +81,6 @@ resources/
   views/            # Blade-шаблоны
 routes/             # Определение маршрутов
 storage/            # Кеш, логи, загруженные файлы
-tests/              # Тесты (если есть)
 ```
 
 ## Аккаунты для тестирования
@@ -101,5 +100,5 @@ tests/              # Тесты (если есть)
 
 ## Лицензия
 
-MIT © DarKing
+MIT © ImNotDarKing
 
