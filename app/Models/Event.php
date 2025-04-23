@@ -32,4 +32,13 @@ class Event extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function isGoing(User $user): bool
+    {
+        return $this->attendances()
+                    ->where('user_id', $user->id)
+                    ->where('going', true)
+                    ->exists();
+    }
+
 }

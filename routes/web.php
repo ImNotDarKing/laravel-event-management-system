@@ -34,3 +34,9 @@ Route::middleware('auth')->group(function(){
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware('auth')->get('profile/events', [App\Http\Controllers\ProfileController::class,'events'])
+     ->name('profile.events');
+
+Route::delete('/events/{id}/attend', [AttendanceController::class,'destroy'])
+    ->name('events.unattend');

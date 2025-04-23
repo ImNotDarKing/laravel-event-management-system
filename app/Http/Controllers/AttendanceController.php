@@ -14,4 +14,10 @@ class AttendanceController extends Controller
 
         return back();
     }
+    public function destroy($eventId)
+    {
+        $user = auth()->user();
+        $user->attendances()->where('event_id', $eventId)->delete();
+        return back();
+    }
 }

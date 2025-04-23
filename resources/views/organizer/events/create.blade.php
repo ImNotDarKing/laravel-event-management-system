@@ -42,6 +42,7 @@
              required>
     </div>
 
+    <input type="hidden" name="paid" value="0">
     <div class="form-check mb-3">
       <input type="checkbox" name="paid" class="form-check-input"
              {{ (isset($event) && $event->paid) ? 'checked' : '' }}>
@@ -49,7 +50,7 @@
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Картинка</label>
+      <label class="form-label" >Картинка</label>
       <input type="file" name="image" class="form-control">
     </div>
 

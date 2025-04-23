@@ -31,11 +31,18 @@ class OrganizerController extends Controller
         $data = $r->validate([
             'title'             => 'required',
             'short_description' => 'required',
+            'description'       => 'nullable|string',
             'location'          => 'required',
-            'starts_at'         => 'required',
+            'starts_at'         => 'required|date',
+            'paid'              => 'boolean',
+            'image'             => 'nullable|image',
         ]);
 
-        $data['organizer_id'] = \Auth::id();
+        if($r->hasFile('image')){
+            $path = $r->file('image')->store('events','public');
+            $data['image'] = $path;
+        }
+        $data['organizer_id'] = auth()->id();
         Event::create($data);
 
         return redirect()->route('organizer.events.index');
@@ -48,11 +55,21 @@ class OrganizerController extends Controller
 
     public function update(Request $r, Event $event)
     {
-        $event->update($r->only([
-            'title','short_description','description',
-            'location','starts_at','paid','image'
-        ]));
-
+        $data = $r->validate([
+            'title'             => 'required',
+            'short_description' => 'required',
+            'description'       => 'nullable|string',
+            'location'          => 'required',
+            'starts_at'         => 'required|date',
+            'paid' => 'required|boolean',
+            
+        ]);
+    
+        if ($r->hasFile('image')) {
+            $data['image'] = $r->file('image')->store('events', 'public');
+        }
+    
+        $event->update($data);
         return redirect()->route('organizer.events.index');
     }
 

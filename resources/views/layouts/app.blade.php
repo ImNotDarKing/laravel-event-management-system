@@ -7,7 +7,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
-        <a class="navbar-brand" href="{{ route('home') }}">Events</a>
+        <a class="navbar-brand" href="{{ url('/') }}">Events</a>
 
         @auth
             <div class="ms-auto">
@@ -17,6 +17,10 @@
 
                 @if(auth()->user()->role === 'admin')
                     <a class="btn btn-outline-danger me-2" href="{{ route('admin.events.index') }}">Admin Panel</a>
+                @endif
+
+                @if(auth()->user()->role==='visitor')
+                    <a class="btn btn-outline-info me-2" href="{{ route('profile.events') }}">Мои события</a>
                 @endif
 
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
