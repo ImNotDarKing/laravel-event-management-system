@@ -1,66 +1,105 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Курсовой проект: Система управления событиями
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Простой веб-сайт для организации мероприятий на базе Laravel 10.
 
-## About Laravel
+## Описание проекта
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Это минималистичная система для проведения и посещения мероприятий с разделением ролей:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Посетитель**: может просматривать мероприятия, отмечаться «Я пойду» и видеть список своих будущих и прошедших событий.
+- **Организатор**: может создавать, редактировать и удалять собственные мероприятия, которые публикуются после одобрения администратором.
+- **Администратор**: просматривает все заявки на публикацию (статус `pending`), одобряет (`approved`) или отклоняет (`rejected`) мероприятия.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Дополнительные возможности:
+- Загрузка и отображение изображения мероприятия.
+- Отзывы и 5-звёздочный рейтинг для прошедших мероприятий.
 
-## Learning Laravel
+## Требования
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP >= 8.1
+- Composer
+- MySQL
+- Расширения PHP: `pdo_mysql`, `mbstring`, `tokenizer`, `xml`, `ctype`, `json`
+- XAMPP (или другой стек веб-сервера)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Установка и настройка
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Клонировать репозиторий**
+   ```bash
+   git clone <URL_репозитория> laravel-event-management
+   cd laravel-event-management
+   ```
 
-## Laravel Sponsors
+2. **Установить зависимости**
+   ```bash
+   composer install
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+3. **Настроить окружение**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+   В файле `.env` пропишите параметры подключения к базе:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=event_manager_db
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-### Premium Partners
+4. **Создать символьную ссылку для хранения изображений**
+   ```bash
+   php artisan storage:link
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+5. **Запустить миграции и сидеры**
+   ```bash
+   php artisan migrate --seed
+   ```
 
-## Contributing
+6. **Запустить встроенный сервер Laravel**
+   ```bash
+   php artisan serve
+   ```
+   Приложение будет доступно по адресу `http://127.0.0.1:8000/`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Структура проекта
 
-## Code of Conduct
+```
+app/                # Основной код приложения (контроллеры, модели)
+bootstrap/          # Файлы автозагрузки
+config/             # Конфигурационные файлы
+database/
+  migrations/       # Миграции базы данных
+  factories/        # Фабрики моделей
+  seeders/          # Сидеры для демонстрационных данных
+public/             # Входная точка веб-сервера
+resources/
+  views/            # Blade-шаблоны
+routes/             # Определение маршрутов
+storage/            # Кеш, логи, загруженные файлы
+tests/              # Тесты (если есть)
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Аккаунты для тестирования
 
-## Security Vulnerabilities
+- **Администратор**:
+  - Email: `admin@example.com`
+  - Пароль: `password`
+- **Организаторы** и **посетители** генерируются сидером автоматически.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Использование
 
-## License
+1. Зарегистрируйтесь на сайте (по умолчанию роль — посетитель).
+2. Чтобы стать организатором, измените в БД поле `role` своего пользователя на `organizer`.
+3. Создайте мероприятие в панели организатора (`/organizer/events`).
+4. Авторизуйтесь как админ и одобрите событие в `/admin/events`.
+5. Посетители могут отмечаться на одобренные события и оставлять отзывы после проведения.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Лицензия
+
+MIT © Ваше_Имя
+
