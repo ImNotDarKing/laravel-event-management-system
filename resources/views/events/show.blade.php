@@ -1,40 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container event-detail">
   <h1>{{ $event->title }}</h1>
   <p>{{ $event->description }}</p>
+
   @if(isset($event) && $event->image)
-    <img src="{{ Storage::url($event->image) }}" alt="Preview" style="max-width:700px;">
+    <img src="{{ Storage::url($event->image) }}" alt="Preview">
   @endif
-  <p><strong>Место:</strong> {{ $event->location }}</p>
-  <p><strong>Дата:</strong> {{ $event->starts_at->format('d.m.Y H:i') }}</p>
+
+  <div class="meta">
+    <div><strong>Место:</strong> {{ $event->location }}</div>
+    <div><strong>Дата:</strong> {{ $event->starts_at->format('d.m.Y H:i') }}</div>
+  </div>
+
   @auth
     @if(auth()->user()->role === 'visitor')
-      @php
-        $going = auth()->user()
-          ->attendances()
-          ->where('event_id', $event->id)
-          ->where('going', true)
-          ->exists();
-      @endphp
+      <div class="actions">
+        @php
+          $going = auth()->user()
+            ->attendances()
+            ->where('event_id', $event->id)
+            ->where('going', true)
+            ->exists();
+        @endphp
 
-      @if($going)
-        {{-- Кнопка Отменить участие --}}
-        <form method="POST" action="{{ route('events.unattend', $event->id) }}">
-          @csrf
-          @method('DELETE')
-          <button class="btn btn-warning">Отменить участие</button>
-        </form>
-      @else
-        {{-- Кнопка Я пойду --}}
-        <form method="POST" action="{{ route('events.attend', $event->id) }}">
-          @csrf
-          <button class="btn btn-success">Я пойду!</button>
-        </form>
-      @endif
+        @if($going)
+          <form method="POST" action="{{ route('events.unattend', $event->id) }}" class="d-inline">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-warning">Отменить участие</button>
+          </form>
+        @else
+          <form method="POST" action="{{ route('events.attend', $event->id) }}" class="d-inline">
+            @csrf
+            <button class="btn btn-success">Я пойду!</button>
+          </form>
+        @endif
+      </div>
     @endif
   @endauth
 </div>
 @endsection
-
