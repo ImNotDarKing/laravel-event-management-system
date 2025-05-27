@@ -17,15 +17,17 @@
               <span class="badge bg-success">Бесплатно</span>
             @endif
           </h5>
-          <p class="card-text">{{ $e->short_description }}</p>
+          <p class="card-text" style="max-height: 60px; overflow: hidden; text-overflow: ellipsis;">
+            {{ $e->short_description }}
+          </p>
           <p class="card-text"><small class="text-muted">{{ $e->starts_at->format('d.m.Y H:i') }}</small></p>
           <a href="{{ route('events.show', $e) }}" class="btn btn-primary btn-more">Подробнее</a>
         </div>
-        @if($e->image)
+      @if($e->image)
           <img src="{{ Storage::url($e->image) }}"
               alt="{{ $e->title }}"
               class="card-img"
-              />
+              style="max-width: 180px; max-height: 120px; object-fit: cover; margin-left: 20px;" />
         @endif
       </div>
     </div>

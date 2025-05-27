@@ -38,6 +38,8 @@ class OrganizerController extends Controller
             'image'             => 'nullable|image',
         ]);
 
+        $data['paid'] = $r->has('paid') ? 1 : 0;
+
         if($r->hasFile('image')){
             $path = $r->file('image')->store('events','public');
             $data['image'] = $path;
@@ -61,14 +63,16 @@ class OrganizerController extends Controller
             'description'       => 'nullable|string',
             'location'          => 'required',
             'starts_at'         => 'required|date',
-            'paid' => 'required|boolean',
-            
+            'paid'              => 'boolean',
         ]);
-    
+
+        // Явно устанавливаем paid
+        $data['paid'] = $r->has('paid') ? 1 : 0;
+
         if ($r->hasFile('image')) {
             $data['image'] = $r->file('image')->store('events', 'public');
         }
-    
+
         $event->update($data);
         return redirect()->route('organizer.events.index');
     }

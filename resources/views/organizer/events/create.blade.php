@@ -44,14 +44,18 @@
 
     <input type="hidden" name="paid" value="0">
     <div class="form-check mb-3">
-      <input type="checkbox" name="paid" class="form-check-input"
-             {{ (isset($event) && $event->paid) ? 'checked' : '' }}>
+      <input type="checkbox" name="paid" class="form-check-input" {{ (isset($event) && $event->paid) ? 'checked' : '' }}>
       <label class="form-check-label">Платное мероприятие</label>
     </div>
 
     <div class="mb-3">
-      <label class="form-label" >Картинка</label>
+      <label class="form-label">Картинка</label>
       <input type="file" name="image" class="form-control">
+      @if(isset($event) && $event->image)
+        <div class="mt-2">
+          <img src="{{ Storage::url($event->image) }}" alt="Текущая картинка" style="max-width: 180px; max-height: 120px;">
+        </div>
+      @endif
     </div>
 
     <button class="btn btn-success">{{ isset($event) ? 'Сохранить' : 'Создать' }}</button>
